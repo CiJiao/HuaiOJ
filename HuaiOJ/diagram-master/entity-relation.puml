@@ -1,0 +1,156 @@
+@startuml
+entity "User" as e01 {
+  *id : varchar <<PK>>
+}
+
+entity "Contest" as e02 {
+  *id : varchar <<PK>>
+  --
+  *author_id : varchar <<FK>>
+}
+
+entity "Clarification" as e03 {
+  *id : varchar <<PK>>
+  --
+  *author_id : varchar <<FK>>
+  --
+  *contest_id : varchar <<FK>>
+}
+
+entity "Tag" as e04 {
+  *id : varchar <<PK>>
+}
+
+entity "Problem" as e05 {
+  *id : varchar <<PK>>
+  --
+  *author_id : varchar <<FK>>
+}
+entity "ProblemTagList" as e06 {
+  *id : varchar <<PK>>
+  --
+  *tag_id : varchar <<FK>>
+  --
+  *problem_id: varchar <<FK>>
+}
+
+entity "ContestProblem" as e07 {
+  *id : varchar <<PK>>
+  --
+  *contest_id : varchar <<FK>>
+  --
+  *problem_id : varchar <<FK>>
+  --
+  *first_submission_id : varchar <<FK>>
+}
+
+entity "Group" as e08 {
+  *id : varchar <<PK>>
+}
+
+entity "UserTagStat" as e09 {
+  *id : varchar <<PK>>
+  --
+  *user_id : varchar <<FK>>
+  --
+  *tag_id : varchar <<FK>>
+}
+
+entity "AuthLog" as e10 {
+  *id : varchar <<PK>>
+  --
+  *user_id : varchar <<FK>>
+}
+
+entity "Authority" as e11 {
+  *id : varchar <<PK>>
+}
+entity "UserAuthorities" as e12 {
+  *id : varchar <<PK>>
+  --
+  *user_id : varchar <<FK>>
+  --
+  *authority_id : varchar <<FK>>
+}
+entity "Announcement" as e13 {
+  *id : varchar <<PK>>
+  --
+  *user_id : varchar <<FK>>
+}
+entity "SecurityQuestion" as e14 {
+  *id : varchar <<PK>>
+}
+entity "UserSecurityQuestion" as e15 {
+  *id : varchar <<PK>>
+  --
+  *user_id : varchar <<FK>>
+  --
+  *security_question_id : varchar <<FK>>
+}
+entity "UserProblemStat" as e16 {
+  *id : varchar <<PK>>
+  --
+  *user_id : varchar <<FK>>
+  --
+  *problem_id : varchar <<FK>>
+}
+entity "Submission" as e17 {
+  *id : varchar <<PK>>
+  --
+  *user_id : varchar <<FK>>
+  --
+  *problem_id : varchar <<FK>>
+  --
+  *contest_id : varchar <<FK>>
+}
+entity "RankingUser" as e18 {
+  *id : varchar <<PK>>
+  --
+  *user_id : varchar <<FK>>
+  --
+  *contest_id : varchar <<FK>>
+}
+entity "Timecost" as e19 {
+  *id : varchar <<PK>>
+  --
+  *ranking_user_id : varchar <<FK>>
+  --
+  *contest_problem_id : varchar <<FK>>
+}
+entity "UserGroupList" as e20 {
+  *id : varchar <<PK>>
+  --
+  *user_id : varchar <<FK>>
+  --
+  *group_id : varchar <<FK>>
+}
+
+e01 |o--o{ e02
+e01 |o--o{ e10
+e01 |o--o{ e20
+e08 |o--o{ e20
+e01 |o--o{ e05
+e01 ||--o{ e03
+e02 ||--o{ e03
+e04 |o--o{ e06
+e05 |o--o{ e06
+e01 |o--o{ e09
+e04 |o--o{ e09
+e01 |o--o{ e12
+e11 |o--o{ e12
+e01 |o--o{ e13
+e01 }o--o{ e15
+e14 |o--o{ e15
+e01 |o--o{ e16
+e05 |o--o{ e16
+e02 |o--o{ e17
+e01 |o--o{ e17
+e05 |o--o{ e17
+e05 |o--o{ e07
+e02 |o--o{ e07
+e07 |o--o| e17
+e02 |o--o{ e18
+e01 |o--o{ e18
+e18 |o--o{ e19
+e07 |o--o{ e19
+@enduml

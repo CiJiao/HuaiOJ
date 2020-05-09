@@ -1,0 +1,12 @@
+version: '2'
+services:
+  shuoj_frontend:
+    build:
+      context: .
+      args:
+        - VUE_APP_BASE_URL=http://192.168.3.225:8081
+    environment:
+      - PORT=8080
+    container_name: shuoj_frontend
+    ports:
+      - '8080:8080'

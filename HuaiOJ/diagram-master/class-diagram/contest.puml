@@ -1,0 +1,380 @@
+@startuml
+
+class Clarification {
+
+  private String id;
+
+  private User author;
+
+  private Contest contest;
+
+  private String question;
+
+  private String answer;
+
+  private LocalDateTime createDate;
+
+  private Boolean isPublic;
+
+  private Boolean isRead;
+}
+
+class Contest {
+
+  private String id;
+
+  private Long idx;
+
+  private User author;
+
+  private String name;
+
+  private String description;
+
+  private String password;
+
+  private OpenType openType = OpenType.PUBLIC;
+
+  private ContestType contestType = ContestType.ICPC;
+
+  private JudgeType judgeType = JudgeType.IMMEDIATELY;
+
+  private Boolean realTimeRank = true;
+
+  private LocalDateTime startDate;
+
+  private LocalDateTime endDate;
+
+  private LocalDateTime createDate;
+
+  private List<Submission> submissionList;
+
+  private Set<ContestProblem> contestProblemSet;
+
+  private List<Clarification> clarificationList;
+
+  private Set<RankingUser> rankingUserList;
+
+  private Long frozenOffset = 4 * 60 * 60 * 1000L;
+
+  private Boolean frozen = false;
+
+  private Boolean enable = false;
+
+  private Boolean visible = false;
+
+  private ContestStatus status = ContestStatus.NOT_STARTED;
+
+  private Boolean sharable = true;
+
+  public void setPassword(String password);
+
+  public boolean isRankingFrozen();
+
+  public boolean isICPC();
+
+  public boolean isOI();
+}
+
+class ContestProblem {
+
+  private String id;
+
+  private Contest contest;
+
+  private Problem problem;
+
+  private String label;
+
+  private Integer acceptCount = 0;
+
+  private Integer submitCount = 0;
+
+  private Double acceptRate = 0.0;
+
+  private Integer score = 0;
+
+  private List<TimeCost> timeList;
+
+  private Submission firstSubmission;
+
+  public String getContestId()
+
+  public String getProblemId()
+
+  public void increaseAcceptCount()
+
+  public void decreaseAcceptCount()
+
+  public void increaseSubmitCount()
+
+  public void computeAcceptRate()
+}
+
+class Problem {
+
+  private String id;
+
+  private Long idx;
+
+  private User author;
+
+  private String title;
+
+  private String description;
+
+  private Integer timeLimit;
+
+  private Integer ramLimit;
+
+  private Difficulty difficulty;
+
+  private Double degreeOfDifficulty;
+
+  private Boolean visible = true;
+
+  private Set<Tag> tagList;
+
+  private String inputDesc;
+
+  private String outputDesc;
+
+  private String sampleIO;
+
+  private List<ContestProblem> contestProblemList;
+
+  private List<Submission> submissionList;
+
+  private Boolean specialJudged = false;
+
+  private String testData;
+
+  private String hint = "";
+
+  private String source = "";
+
+  private Integer averageAcceptTime = 0;
+
+  private Integer acceptCount = 0;
+
+  private Integer submitCount = 0;
+
+  private Double acceptRate = 0.0;
+
+  private LocalDateTime createDate;
+
+  private LocalDateTime lastUsedDate;
+
+  private LocalDateTime modifiedDate;
+
+  private Integer testCaseCount = 0;
+}
+
+class RankingUser {
+
+  private String id;
+
+  private User user;
+
+  private Contest contest;
+
+  private Integer passedCount = 0;
+
+  private Integer acceptCount = 0;
+
+  private Integer submitCount = 0;
+
+  private Integer errorCount = 0;
+
+  private Double score = 0.0;
+
+  private Long time = 0L;
+
+  private List<TimeCost> timeList;
+
+  private Boolean ranked = true;
+
+  private Integer rankingNumber;
+
+  private String teacherId;
+
+  private String groupId;
+
+  public void increasePassedCount()
+
+  public void increaseAcceptCount()
+
+  public void decreaseAcceptCount()
+
+  public void decreaseSubmitCount()
+
+  public void increaseSubmitCount()
+
+  public void increaseErrorCount()
+
+  public void addTime(Long milliseconds)
+
+  public void minusTime(Long milliseconds)
+
+  public void addScore(Double score)
+
+  public void minusScore(Double score)
+}
+
+class Submission {
+
+  private String id;
+
+  private Long idx;
+
+  private User author;
+
+  private Problem problem;
+
+  private String code;
+
+  private Contest contest;
+
+  private Boolean isPractice;
+
+  private LocalDateTime createDate;
+
+  private Language language;
+
+  private Integer memory;
+
+  private Integer length;
+
+  private Integer duration;
+
+  private Boolean isBeforeFrozen;
+
+  private Boolean shared;
+
+  private Result result;
+
+  private String resultDetail;
+
+  public String getAuthorId()
+
+  public String getContestId()
+
+  public String getProblemId()
+}
+
+class User {
+
+  private String id;
+
+  private String username;
+
+  private String password;
+
+  private String studentNumber;
+
+  private String firstname;
+
+  private String lastname;
+
+  private String name;
+
+  private String email;
+
+  private String school;
+
+  private String signature;
+
+  private Long acCount = 0L;
+
+  private Long submitCount = 0L;
+
+  private Double acRate = 0.0;
+
+  private Boolean enabled = true;
+
+  private Date lastPasswordResetDate;
+
+  private List<Authority> authorities;
+
+  private List<Problem> problemList;
+
+  private List<VirtualProblem> virtualProblemList;
+
+  private List<Contest> contestList;
+
+  private List<RankingUser> rankingUserList;
+
+  private List<Announcement> announcementList;
+
+  private List<Group> createGroupList;
+
+  private List<AuthLog> authLogList;
+
+  private List<Clarification> clarificationList;
+
+  private List<Group> groupList;
+
+  private List<UserSecurityQuestion> userSecurityQuestionList;
+
+  private Long referUserId;
+
+  private Boolean temporary = false;
+
+  public boolean isAdmin()
+
+  public boolean isAdminOrStuff()
+
+  public void setPassword(String password)
+
+  public void setMd5Password(String password)
+}
+
+class TimeCost {
+
+  private String id;
+
+  private ContestProblem contestProblem;
+
+  private Long totalTime = 0L;
+
+  private Integer errorCount = 0;
+
+  private Boolean submitted = false;
+
+  private Boolean passed = false;
+
+  private Boolean firstPassed = false;
+
+  private Double score = 0.0;
+
+  private RankingUser rankingUser;
+
+  public void addTotalTime(Long milliseconds)
+
+  public void minusTotalTime(Long milliseconds)
+
+  public void increaseErrorCount()
+
+  public void decreaseErrorCount()
+
+  public void addScore(Double score)
+}
+
+User "1"--"many" Contest : create
+User "1"--"many" Problem : create
+
+Contest "1"--"many" RankingUser : contains
+User "1"--"many" RankingUser : join
+RankingUser "1"--"many" TimeCost : contains
+
+Contest "1"--"many" ContestProblem : contains
+Problem "1"--"many" ContestProblem : used
+ContestProblem "1"--"many" TimeCost : contains
+
+Contest "1"--"many" Clarification : contains
+Contest "1"--"many" Submission : contains
+Problem "1"--"many" Submission : has
+User "1"--"many" Submission : create
+User "1"--"many" Clarification : create
+
+@enduml

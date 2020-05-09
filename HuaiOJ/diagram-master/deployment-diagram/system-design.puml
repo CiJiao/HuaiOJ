@@ -1,0 +1,48 @@
+@startuml system-design
+
+left to right direction
+
+agent mobile
+agent browser
+
+rectangle "Front-end" as fe
+
+
+mobile -- fe
+browser -- fe
+
+
+cloud "Back-end\n" as be {
+
+    rectangle "API Gateway"as gw
+
+    gw -[hidden]- zk
+
+    rectangle ZooKeeper as zk {
+        rectangle "main-service-2"
+        rectangle "main-service-1"
+        rectangle "main-service-0"
+        rectangle "judge-server-2" <<Consumer>>
+        rectangle "judge-server-1" <<Consumer>>
+        rectangle "judge-server-0" <<Consumer>>
+        rectangle "statistics-services-2" <<Consumer>>
+        rectangle "statistics-services-1" <<Consumer>>
+        rectangle "statistics-services-0" <<Consumer>>
+    }
+
+    rectangle "Database" as db {
+        rectangle MySQL
+        rectangle Redis
+    }
+
+    db -[hidden]- zk
+}
+
+fe -- gw
+
+
+
+
+
+
+@enduml

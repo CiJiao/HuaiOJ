@@ -1,0 +1,229 @@
+@startuml
+
+class Announcement {
+
+  private String id;
+
+  private User author;
+}
+
+class Clarification {
+
+  private String id;
+
+  private User author;
+
+  private Contest contest;
+}
+
+class Contest {
+
+  private String id;
+
+  private User author;
+
+  private List<Submission> submissionList;
+
+  private Set<ContestProblem> contestProblemSet;
+
+  private List<Clarification> clarificationList;
+
+  private Set<RankingUser> rankingUserList;
+}
+
+class ContestProblem {
+
+  private String id;
+
+  private Contest contest;
+
+  private Problem problem;
+
+  private List<TimeCost> timeList;
+
+  private Submission firstSubmission;
+}
+
+class Group {
+
+  private String id;
+
+  private User author;
+
+  private Set<User> userSet;
+}
+
+class Problem {
+
+  private String id;
+
+  private User author;
+
+  private Set<Tag> tagList;
+
+  private List<ContestProblem> contestProblemList;
+
+  private List<Submission> submissionList;
+}
+
+class RankingUser {
+
+  private String id;
+
+  private User user;
+
+  private Contest contest;
+
+  private List<TimeCost> timeList;
+}
+
+class Submission {
+
+  private String id;
+
+  private User author;
+
+  private Problem problem;
+
+  private Contest contest;
+}
+
+class Tag {
+
+  private String id;
+
+  private List<Problem> problemList;
+}
+
+class TimeCost {
+
+  private String id;
+
+  private ContestProblem contestProblem;
+
+  private RankingUser rankingUser;
+}
+
+class User {
+
+  private String id;
+
+  private List<Authority> authorities;
+
+  private List<Problem> problemList;
+
+  private List<VirtualProblem> virtualProblemList;
+
+  private List<Contest> contestList;
+
+  private List<RankingUser> rankingUserList;
+
+  private List<Announcement> announcementList;
+
+  private List<Group> createGroupList;
+
+  private List<AuthLog> authLogList;
+
+  private List<Clarification> clarificationList;
+
+  private List<Group> groupList;
+
+  private List<Contest> contestListExcluded;
+
+  private List<UserSecurityQuestion> userSecurityQuestionList;
+}
+
+class UserSecurityQuestion {
+
+  private String id;
+
+  private User user;
+
+  private SecurityQuestion securityQuestion;
+}
+
+class VirtualProblem extends Problem {
+
+  private String id;
+
+  private User author;
+}
+
+class AuthLog {
+
+  private String id;
+
+  private User user;
+}
+
+class Authority {
+
+  private Long id;
+
+  private List<User> userList;
+}
+
+class SecurityQuestion {
+
+  private String id;
+
+  private List<UserSecurityQuestion> userSecurityQuestionList;
+}
+
+class UserProblemStat {
+
+  private String id;
+
+  private User user;
+
+  private Problem problem;
+}
+
+class UserTagStat {
+
+  private String id;
+
+  private User user;
+
+  private Tag tag;
+}
+
+User "1" -- "*" Announcement : create
+User "1" -- "*" Problem : create
+User "1" -- "*" VirtualProblem : create
+User "1" -- "*" Contest : create
+User "*" -- "*" RankingUser : join
+User "1" -- "*" Clarification : create
+User "1" -- "*" Group : create
+User "*" -- "*" Group : join
+User "1" -- "*" Submission : create
+User "1" -- "*" UserSecurityQuestion : create
+User "1" -- "*" AuthLog : generate
+User "1" -- "*" UserProblemStat : generate
+User "1" -- "*" UserTagStat : generate
+User "1" -- "*" Authority: being
+
+SecurityQuestion "1" -- "*" UserSecurityQuestion : has
+
+' contest-user
+RankingUser "1" -- "*" TimeCost : has
+
+Contest "1" -- "*" RankingUser : has
+Contest "1" -- "*" ContestProblem : has
+Contest "1" -- "*" Submission : has
+Contest "1" -- "*" Clarification : has
+
+' contest-problem
+ContestProblem "1" -- "*" TimeCost : has
+
+Problem "1" -- "*" Submission : has
+Problem "*" -- "*" Tag : has
+Problem "1" -- "*" ContestProblem : has
+Problem "1" -- "*" UserProblemStat : has
+
+Tag "1" -- "*" UserTagStat : has
+
+
+
+
+@enduml
